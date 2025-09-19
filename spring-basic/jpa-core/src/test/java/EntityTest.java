@@ -42,6 +42,7 @@ public class EntityTest {
 			ex.printStackTrace();
 			et.rollback(); // DB 작업 중 오류 발생 시 rollback 을 호출합니다.
 		} finally {
+			System.out.println("test");
 			em.close(); // 사용한 EntityManager 를 종료합니다.
 		}
 
