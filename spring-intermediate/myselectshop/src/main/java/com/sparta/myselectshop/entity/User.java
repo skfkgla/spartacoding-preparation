@@ -1,12 +1,12 @@
 package com.sparta.myselectshop.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,10 +31,25 @@ public class User {
 	@Enumerated(value = EnumType.STRING)
 	private UserRoleEnum role;
 
+	private Long kakaoId;
+
 	public User(String username, String password, String email, UserRoleEnum role) {
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.role = role;
+	}
+
+	public User(String username, String password, String email, UserRoleEnum role, Long kakaoId) {
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.role = role;
+		this.kakaoId =kakaoId;
+	}
+
+	public User kakaoIdUpdate(Long kakaoId) {
+		this.kakaoId = kakaoId;
+		return this;
 	}
 }
