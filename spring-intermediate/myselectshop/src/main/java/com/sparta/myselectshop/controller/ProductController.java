@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sparta.myselectshop.dto.FolderRequestDto;
+import com.sparta.myselectshop.dto.FolderResponseDto;
 import com.sparta.myselectshop.dto.ProductMypriceRequestDto;
 import com.sparta.myselectshop.dto.ProductRequestDto;
 import com.sparta.myselectshop.dto.ProductResponseDto;
@@ -50,5 +52,12 @@ public class ProductController {
 		@AuthenticationPrincipal UserDetailsImpl userDetails) {
 		return productService.getProducts(userDetails.getUser(),
 			page - 1, size, sortBy, isAsc);
+	}
+
+	@PostMapping("/products/{productId}/folder")
+	public void createFolder(@PathVariable Long productId,
+		@RequestParam Long folderId,
+		@AuthenticationPrincipal UserDetailsImpl userDetails) {
+		productService.addFolder(productId, folderId, userDetails.getUser());
 	}
 }
