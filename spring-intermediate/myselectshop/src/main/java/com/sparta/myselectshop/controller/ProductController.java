@@ -2,6 +2,8 @@ package com.sparta.myselectshop.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,11 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sparta.myselectshop.dto.ProductMypriceRequestDto;
 import com.sparta.myselectshop.dto.ProductRequestDto;
 import com.sparta.myselectshop.dto.ProductResponseDto;
+import com.sparta.myselectshop.entity.UserRoleEnum;
 import com.sparta.myselectshop.security.UserDetailsImpl;
 import com.sparta.myselectshop.service.ProductService;
 
@@ -38,13 +42,13 @@ public class ProductController {
 	}
 
 	@GetMapping("/products")
-	public List<ProductResponseDto> getProducts(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-		return productService.getProducts(userDetails.getUser());
-	}
-
-
-	@GetMapping("/admin/products")
-	public List<ProductResponseDto> getAllProducts() {
-		return productService.getAllProducts();
+	public Page<ProductResponseDto> getProducts(
+		@RequestParam("page") int page,
+		@RequestParam("size") int size,
+		@RequestParam("sortBy") String sortBy,
+		@RequestParam("isAsc") boolean isAsc,
+		@AuthenticationPrincipal UserDetailsImpl userDetails) {
+		return productService.getProducts(userDetails.getUser(),
+			page - 1, size, sortBy, isAsc);
 	}
 }
