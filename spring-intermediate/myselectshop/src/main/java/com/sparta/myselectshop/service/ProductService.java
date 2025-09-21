@@ -10,6 +10,7 @@ import com.sparta.myselectshop.dto.ProductMypriceRequestDto;
 import com.sparta.myselectshop.dto.ProductRequestDto;
 import com.sparta.myselectshop.dto.ProductResponseDto;
 import com.sparta.myselectshop.entity.Product;
+import com.sparta.myselectshop.naver.dto.ItemDto;
 import com.sparta.myselectshop.repository.ProductRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -51,5 +52,12 @@ public class ProductService {
 		}
 
 		return responseDtos;
+	}
+
+	@Transactional
+	public void updateBySearch(Long id, ItemDto itemDto) {
+		Product product = productRepository.findById(id).orElseThrow(()
+			-> new NullPointerException("상품이 존재하지 않습니다."));
+		product.updateByItemDto(itemDto);
 	}
 }
